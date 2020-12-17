@@ -1,3 +1,23 @@
+### 0、es6的新特性
+
+1、let、const、var的区别
+
+2、set、map
+
+3、解构赋值
+
+4、symbol、BigInt
+
+5、async / Await(es8的，借助es6的promise)
+
+6、promise
+
+7、import、export、export default
+
+8、函数参数可以设置默认值
+
+9、箭头函数
+
 ### 1、浏览器提供给js哪些API
 
 控制台打印：console.log()
@@ -26,9 +46,15 @@ script如果没有defer或async，浏览器遇到js文件会立即加载并执�
 
 ### 3、闭包
 
+**说法①**
+
 闭包是指有权访问另外一个函数作用域中的变量的函数，是函数内部与外部连接的桥梁
 
 正常函数执行完毕后，里面声明的变量被垃圾回收处理掉，但是闭包可以让作用域里的变量，在函数执行完之后依旧保持，没有被垃圾回收处理掉。
+
+**说法②**
+
+大函数套小函数，大函数内部可以保存变量给小函数用，大函数return一个小函数，变量不会被垃圾回收，也正因如此，会内存溢出
 
 缺点： ①闭包会导致内存占用过高，因为变量都没有释放内存；②内存泄漏
 
@@ -572,3 +598,100 @@ ES5新增Object.create规范了原型式继承，接收两个参数，一个用�
 ### 30、instanceof的原理
 
 instanceof 主要的实现原理就是只要右边变量的 prototype 在左边变量的原型链上即可。因此，instanceof 在查找的过程中会遍历左边变量的原型链，直到找到右边变量的 prototype，如果查找失败，则会返回 false
+
+### 31、JavaScript  use strict 有什么用
+
+**最好只在函数内使用严格模式**。
+
+```js
+function doSomething() { 
+	"use strict"; 
+	// 严格模式下运行 
+}
+function doSomethingElse() { 
+	// 非严格模式下运行 
+} 
+```
+
+**如果你想严格模式应用于多个函数：**
+
+```javascript
+(function() {
+	"use strict";  
+	function doSomething() {  
+    	// this runs in strict mode  
+	}  
+	function doSomethingElse() { 
+    	// so does this  
+	}  
+})(); 
+```
+
+**优点**：
+
+1. 消除Javascript语法的一些不合理、不严谨之处，减少一些怪异行为;
+
+2. 消除代码运行的一些不安全之处，保证代码运行的安全；
+
+3. 提高编译器效率，增加运行速度；
+
+4. 为未来新版本的Javascript做好铺垫。
+
+IE9及以下浏览器均不支持严格模式。
+
+**缺点**：
+
+现在网站的 JS 都会进行压缩，一些文件用了严格模式，而另一些没有。这时这些本来是严格模式的文件，被 merge 后，这个串就到了文件的中间，不仅没有指示严格模式，反而在压缩后浪费了字节。
+
+### 32、Object常用的属性和方法
+
+`Object.keys(obj)`：返回一个由指定对象(obj)的所有可枚举自身属性的属性名组成的数组
+
+`Object.values(obj)`：返回一个包含指定对象所有的可枚举属性值的数组
+
+`Object.assign(obj)`：把任意多个的源对象自身的可枚举属性拷贝给目标对象，然后返回目标对象。
+
+```js
+var obj = {
+    a: 1,
+    b: {b1: 'b1', b2: 2},
+    c: ['c1', 'c2']
+}
+console.log(Object.keys(obj)); // ["a", "b", "c"]
+console.log(Object.values(obj)); // [1, {b1: 2, b2: 2}, ["c1", "c2"]]
+
+var obj2 = { d: 'd4' }
+var obj3 = {}
+Object.assign(obj3, obj, obj2)
+console.log(obj3); // { a: 1, b: {b1: 2, b2: 2}, c: ["c1", "c2"], d: "d4" }
+obj3.b.b1 = 2
+console.log(obj); // { a: 1, b: {b1: 2, b2: 2}, c: ["c1", "c2"] }
+console.log(obj3); // { a: 1, b: {b1: 2, b2: 2}, c: ["c1", "c2"], d: "d4" }
+```
+
+`Object.defineProperty(obj, prop, descriptor)`：直接在一个对象上定义一个新属性，或者修改一个已经存在的属性， 并返回这个对象。`obj`：需要定义属性的对象。`prop`：需定义或修改的属性的名字。`descriptor`：将被定义或修改的属性的描述符。
+
+`Object.create(__proto__,[propertiesobject])`：创建一个拥有指定原型和若干个指定属性的对象，返回一个带有指定原型对象和属性的新对象。`__proto__`：新创建对象的原型对象。`propertiesObject`：可选。如果没有指定为 undefined，则是要添加到新创建对象的可枚举属性（即其自身定义的属性，而不是其原型链上的枚举属性）对象的属性描述符以及相应的属性名称。
+
+`Object.prototype.hasOwnProperty()`:返回一个布尔值，表示某个对象是否含有指定的属性，而且此属性非原型链继承。
+
+`Object.getOwnPropertyNames()`：返回对象的所有自身属性的属性名（包括不可枚举的属性）组成的数组，但不会获取原型链上的属性。与`Object.keys()`区别在于`Object.keys`只适用于可枚举的属性，而`Object.getOwnPropertyNames`返回对象自动的全部属性名称。
+
+### 33、window.onload和DOMContentLoaded的区别
+
+① 触发时间不一样：
+
+`onload` 事件触发时，页面上所有的DOM，样式表，脚本，图片，flash都已经加载完成了。
+
+`DOMContentLoaded` 事件触发时，仅当DOM加载完成，不包括样式表，图片，flash。
+
+### 34、事件流
+
+事件流也称为事件传播，事件传播的顺序对应浏览器的两种事件流模型：捕获型事件流和冒泡型事件流。
+
+**冒泡型事件流**：事件的传播是从**最特定**的**事件目标**到最不特定的**事件目标**。即从DOM树的叶子到根。**【推荐】**
+
+**捕获型事件流**：事件的传播是从**最不特定**的**事件目标**到最特定的**事件目标**。即从DOM树的根到叶子。
+
+事件流包括三个阶段：**事件捕获阶段**(capture phase)、**目标阶段**(target phase)和**事件冒泡阶段**(bubbling phase)。
+

@@ -380,3 +380,45 @@ font-face是css3中允许使用自定义字体的一个模块。
 rem是基于html元素的字体大小来决定，而em则根据使用它的元素的大小决定。
 
 二者都是灵活、可扩展的单位，由浏览器转换为像素值，具体取决于您的设计中的字体大小设置。
+
+### 23、HTML5自定义属性
+
+在HTML5中添加了`data-*`的方式来自定义属性，所谓`data-*`实际上上就是`data-`前缀加上自定义的属性名，使用这样的结构可以进行数据存放。使用`data-*`可以解决自定义属性混乱无管理的现状。
+
+```html
+<!-- data-*有两种设置方式，可以直接在HTML元素标签上书写 -->
+<div id="test" data-age="24"> hello world </div>
+
+<script>
+    // 这样就为div添加了一个data-my的自定义属性
+	var test = document.getElementById('test');
+	test.dataset.my = 'first';
+    test.dataset.birthDate = '134567097';
+</script>
+
+使用JavaScript操作dataset有两个需要注意的地方:
+1. 我们在添加或读取属性的时候需要去掉前缀data-*
+2. 如果属性名称中还包含连字符(-)，需要转成驼峰命名方式，但如果在CSS中使用选择器，我们需要使用连字符格式
+<style type="text/css">
+	[data-birth-date] {
+		background-color: #0f0;
+		width:100px;
+		margin:20px;
+	}
+</style>
+```
+
+### 24、padding和margin百分比的计算
+
+无论是`padding-left / padding-right / padding-top / padding-bottom / margin-left / margin-right / margin-top / margin-bottom`，都是相对于父元素的宽度来计算的
+
+
+
+
+
+
+
+
+
+
+
