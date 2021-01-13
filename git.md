@@ -82,3 +82,10 @@ $ git commit -m "本次提交代码的说明"
 $ git push -u origin master
 ```
 
+10、删除github中的仓库
+
+1）进入github主页，选择进入要删除的仓库
+
+2）点击settings选项中的options选项
+
+3）在options的最后面有一个Danger Zone，选择delete this repository
